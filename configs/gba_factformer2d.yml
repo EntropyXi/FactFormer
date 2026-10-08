@@ -1,0 +1,35 @@
+# FactFormer2D: GBA depth-averaged U/V, seven days -> next day.
+# This file is for the FactFormer2D class in the notebook, not IFactFormer-m.
+
+log_dir: results_gba_factformer2d
+
+data:
+    data_dir: /data1/user/gjx/ocean_uv_forecast/data_gba_crop149x148
+    uv_file: uv_daily.npy
+    split_file: split.npz
+    stats_file: stats.npz
+    resolution_x: 149
+    resolution_y: 148
+    # mask.npy is all False for this crop; call model(..., use_mask=False).
+
+model:
+    in_dim: 2
+    out_dim: 2
+    in_time_window: 7
+    out_time_window: 1
+    dim: 128
+    heads: 8
+    depth: 4
+    dim_head: 64
+    kernel_multiplier: 2
+    pos_in_dim: 2
+    pos_out_dim: 2
+    positional_embedding: rotary
+    max_latent_steps: 1
+    latent_multiplier: 2.0
+    n_layer: 1
+
+training:
+    batch_size: 2
+    epochs: 50
+    lr: 0.0005
