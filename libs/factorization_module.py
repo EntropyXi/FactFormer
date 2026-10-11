@@ -97,7 +97,7 @@ class FABlock2D(nn.Module):
         u_phi = torch.einsum('bhij,bhjmc->bhimc', k_x, u_phi)
         u_phi = torch.einsum('bhlm,bhimc->bhilc', k_y, u_phi)
         u_phi = rearrange(u_phi, 'b h i l c -> b i l (h c)', h=self.heads)
-        return self.to_out(u_phi)
+        return self.to_out(u_phi).reshape(u.shape[0], u.shape[1], u.shape[2], -1)
 
 
 class FABlock3D(nn.Module):
